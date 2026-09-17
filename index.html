@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<base target="_top">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New Path Staffing — Candidate Onboarding</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#14213D;
+    --indigo:#3A4F8F;
+    --bg:#F5F3EE;
+    --gold:#D8A34E;
+    --ink:#1D1D1D;
+    --muted:#6B7180;
+    --line:#E1DCD1;
+    --white:#FFFFFF;
+    --error:#B3261E;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:'Poppins',sans-serif;
+    color:var(--ink);
+    background:var(--bg);
+    line-height:1.55;
+  }
+  a{color:inherit;}
+  img{max-width:100%;}
+
+  /* ---------- Nav ---------- */
+  .nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:22px 6%;
+    position:sticky;top:0;z-index:20;
+    background:rgba(245,243,238,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:18px;color:var(--navy);}
+  .brand-mark{
+    width:28px;height:28px;border-radius:50%;
+    background:conic-gradient(var(--gold) 0deg 130deg, var(--indigo) 130deg 360deg);
+  }
+  .nav a.cta{
+    background:var(--navy);color:var(--white);
+    padding:10px 20px;border-radius:6px;
+    font-size:14px;font-weight:500;text-decoration:none;
+    transition:background .2s ease;
+  }
+  .nav a.cta:hover{background:var(--indigo);}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:90px 6% 70px;
+    display:grid;grid-template-columns:1.1fr 0.9fr;gap:60px;
+    align-items:center;
+    max-width:1180px;margin:0 auto;
+  }
+  .hero h1{
+    font-size:clamp(34px,4vw,52px);
+    font-weight:600;
+    line-height:1.15;
+    margin:0 0 20px;
+    color:var(--navy);
+    letter-spacing:-0.5px;
+  }
+  .hero p.lead{
+    font-size:18px;color:var(--muted);max-width:480px;margin:0 0 30px;
+  }
+  .hero-actions a{
+    display:inline-block;background:var(--navy);color:var(--white);
+    padding:14px 26px;border-radius:6px;text-decoration:none;
+    font-weight:500;font-size:15px;
+  }
+  .hero-actions a:hover{background:var(--indigo);}
+  .hero-note{margin-top:16px;font-size:13px;color:var(--muted);}
+
+  /* Animated pathway visual */
+  .pathway{position:relative;height:320px;}
+  .pathway svg{width:100%;height:100%;}
+  .path-line{
+    stroke:var(--indigo);stroke-width:3;fill:none;
+    stroke-dasharray:600;stroke-dashoffset:600;
+    animation:draw 2.2s ease forwards;
+  }
+  @keyframes draw{to{stroke-dashoffset:0;}}
+  .path-dot{
+    opacity:0;
+    animation:appear .5s ease forwards;
+  }
+  .path-dot:nth-of-type(1){animation-delay:.3s;}
+  .path-dot:nth-of-type(2){animation-delay:.9s;}
+  .path-dot:nth-of-type(3){animation-delay:1.5s;}
+  .path-dot:nth-of-type(4){animation-delay:2.1s;}
+  @keyframes appear{to{opacity:1;}}
+  @media (prefers-reduced-motion: reduce){
+    .path-line,.path-dot{animation:none;stroke-dashoffset:0;opacity:1;}
+  }
+
+  /* ---------- How it works ---------- */
+  .section{max-width:1180px;margin:0 auto;padding:70px 6%;}
+  .section h2{
+    font-size:28px;font-weight:600;color:var(--navy);margin:0 0 12px;
+  }
+  .section p.section-lead{color:var(--muted);max-width:560px;margin:0 0 40px;font-size:16px;}
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
+  .step{
+    background:var(--white);border:1px solid var(--line);border-radius:8px;
+    padding:26px 22px;
+  }
+  .step .num{
+    font-weight:600;color:var(--gold);font-size:14px;margin-bottom:10px;
+  }
+  .step h3{font-size:16px;margin:0 0 8px;color:var(--navy);}
+  .step p{font-size:14px;color:var(--muted);margin:0;}
+
+  /* ---------- Form ---------- */
+  .form-wrap{
+    background:var(--navy);
+    padding:70px 6%;
+  }
+  .form-inner{max-width:760px;margin:0 auto;}
+  .form-inner h2{color:var(--white);font-size:28px;font-weight:600;margin:0 0 10px;}
+  .form-inner p.section-lead{color:#B9C2D9;max-width:none;}
+  .card{
+    background:var(--white);border-radius:10px;padding:36px;margin-top:30px;
+    box-shadow:0 20px 40px -20px rgba(0,0,0,.4);
+  }
+  fieldset{border:none;padding:0;margin:0 0 26px;}
+  legend{
+    font-size:13px;font-weight:600;color:var(--indigo);
+    text-transform:uppercase;letter-spacing:.06em;
+    margin:0 0 14px;padding:0;
+  }
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+  .field{margin-bottom:16px;}
+  label{
+    display:block;font-size:14px;font-weight:500;margin-bottom:6px;color:var(--ink);
+  }
+  label .opt{color:var(--muted);font-weight:400;font-size:12px;}
+  input[type=text],input[type=email],input[type=tel],input[type=url],textarea,select{
+    width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:6px;
+    font-family:'Poppins',sans-serif;font-size:14px;background:var(--bg);
+    transition:border-color .15s ease, box-shadow .15s ease;
+  }
+  input:focus,textarea:focus,select:focus{
+    outline:none;border-color:var(--indigo);
+    box-shadow:0 0 0 3px rgba(58,79,143,.15);
+  }
+  textarea{resize:vertical;min-height:90px;}
+  .hint{font-size:12px;color:var(--muted);margin-top:5px;}
+
+  /* Checkbox / Pill Options Grid */
+  .pill-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    margin-top: 6px;
+  }
+  .pill-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    user-select: none;
+    transition: background .15s ease, border-color .15s ease;
+  }
+  .pill-option:hover { border-color: var(--indigo); }
+  .pill-option input[type=checkbox] { width: auto; margin: 0; }
+
+  .consent{
+    display:flex;gap:10px;align-items:flex-start;
+    background:var(--bg);border-radius:6px;padding:14px 16px;
+    font-size:13px;color:var(--muted);
+  }
+  .consent input{width:auto;margin-top:2px;}
+  
+  /* Validation error styling */
+  .error-text{color:var(--error);font-size:12px;margin-top:5px;display:none;}
+  .field.invalid input, .field.invalid textarea, .field.invalid select{border-color:var(--error);}
+  .field.invalid .error-text{display:block;}
+
+  button.submit{
+    width:100%;background:var(--gold);color:var(--navy);border:none;
+    padding:15px 0;border-radius:6px;font-size:15px;font-weight:600;
+    cursor:pointer;transition:filter .15s ease, opacity .15s ease;
+    font-family:'Poppins',sans-serif;
+  }
+  button.submit:hover{filter:brightness(0.95);}
+  button.submit:disabled{opacity:.6;cursor:not-allowed;}
+
+  .form-status{
+    margin-top:14px;font-size:13px;text-align:center;color:var(--muted);min-height:18px;
+  }
+  .form-status.error{color:var(--error);}
+
+  /* Success state */
+  .success{
+    display:none;text-align:center;padding:20px 0;
+  }
+  .success.show{display:block;}
+  .success .check{
+    width:56px;height:56px;border-radius:50%;background:var(--gold);
+    display:flex;align-items:center;justify-content:center;margin:0 auto 18px;
+    font-size:26px;color:var(--navy);
+  }
+  .success h3{color:var(--navy);margin:0 0 8px;font-size:20px;}
+  .success p{color:var(--muted);font-size:14px;max-width:420px;margin:0 auto;}
+
+  footer{
+    padding:34px 6%;text-align:center;font-size:13px;color:var(--muted);
+  }
+
+  @media (max-width:820px){
+    .hero{grid-template-columns:1fr;padding-top:50px;}
+    .pathway{height:220px;order:-1;}
+    .steps{grid-template-columns:1fr 1fr;}
+    .row{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="brand"><span class="brand-mark"></span> New Path Staffing</div>
+  <a class="cta" href="#form">Start your intake</a>
+</nav>
+
+<section class="hero">
+  <div>
+    <h1>A second chance deserves a real one.</h1>
+    <p class="lead">New Path Staffing connects returning citizens with employers ready to hire on merit. Tell us about yourself once — we'll match you to opportunities and support that fit how you work and learn.</p>
+    <div class="hero-actions"><a href="#form">Begin candidate intake</a></div>
+    <div class="hero-note">Takes about 5 minutes. Your information is kept confidential.</div>
+  </div>
+  <div class="pathway">
+    <svg viewBox="0 0 400 320" aria-hidden="true">
+      <path class="path-line" d="M 30 260 C 120 260, 120 160, 200 160 C 280 160, 280 60, 370 60" />
+      <circle class="path-dot" cx="30" cy="260" r="7" fill="#3A4F8F"/>
+      <circle class="path-dot" cx="200" cy="160" r="7" fill="#3A4F8F"/>
+      <circle class="path-dot" cx="370" cy="60" r="9" fill="#D8A34E"/>
+      <text class="path-dot" x="10" y="290" font-family="Poppins" font-size="12" fill="#6B7180">Intake</text>
+      <text class="path-dot" x="150" y="190" font-family="Poppins" font-size="12" fill="#6B7180">Matched</text>
+      <text class="path-dot" x="330" y="40" font-family="Poppins" font-size="12" fill="#14213D" font-weight="600">Hired</text>
+    </svg>
+  </div>
+</section>
+
+<section class="section">
+  <h2>How onboarding works</h2>
+  <p class="section-lead">One form starts four things happening on your behalf.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="num">01</div>
+      <h3>You share your background</h3>
+      <p>Contact details, work experience, and how you learn best.</p>
+    </div>
+    <div class="step">
+      <div class="num">02</div>
+      <h3>We identify your learning style</h3>
+      <p>Your answer is reviewed to determine whether you learn best visually, by listening, by reading, or by doing.</p>
+    </div>
+    <div class="step">
+      <div class="num">03</div>
+      <h3>Your case file is created</h3>
+      <p>A private folder and welcome packet are generated for our placement team.</p>
+    </div>
+    <div class="step">
+      <div class="num">04</div>
+      <h3>You hear from us</h3>
+      <p>A confirmation email arrives with next steps and resources matched to how you learn.</p>
+    </div>
+  </div>
+</section>
+
+<div class="form-wrap" id="form">
+  <div class="form-inner">
+    <h2>Candidate intake form</h2>
+    <p class="section-lead">Everything here goes directly to our placement team — nothing is shared with employers without your consent.</p>
+
+    <div class="card">
+      <form id="intakeForm" novalidate>
+        <fieldset>
+          <legend>Contact information</legend>
+          <div class="row">
+            <div class="field" data-field="firstName">
+              <label for="firstName">First name</label>
+              <input type="text" id="firstName" name="firstName" required aria-describedby="firstNameError">
+              <div class="error-text" id="firstNameError">Enter your first name.</div>
+            </div>
+            <div class="field" data-field="lastName">
+              <label for="lastName">Last name</label>
+              <input type="text" id="lastName" name="lastName" required aria-describedby="lastNameError">
+              <div class="error-text" id="lastNameError">Enter your last name.</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="field" data-field="email">
+              <label for="email">Email address</label>
+              <input type="email" id="email" name="email" required aria-describedby="emailError">
+              <div class="error-text" id="emailError">Enter a valid email address.</div>
+            </div>
+            <div class="field" data-field="phone">
+              <label for="phone">Phone number</label>
+              <input type="tel" id="phone" name="phone" placeholder="(555) 000-0000" required aria-describedby="phoneError">
+              <div class="error-text" id="phoneError">Enter a valid 10-digit phone number.</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="field" data-field="location">
+              <label for="location">City / State</label>
+              <input type="text" id="location" name="location" placeholder="e.g. Columbus, OH" required aria-describedby="locationError">
+              <div class="error-text" id="locationError">Enter your city and state — this helps us match you locally.</div>
+            </div>
+            <div class="field">
+              <label for="linkedin">LinkedIn or portfolio <span class="opt">(optional)</span></label>
+              <input type="url" id="linkedin" name="linkedin" placeholder="https://">
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Logistics & Background</legend>
+          <div class="row">
+            <div class="field" data-field="transportation">
+              <label for="transportation">Primary transportation</label>
+              <select id="transportation" name="transportation" required aria-describedby="transportationError">
+                <option value="">Select an option</option>
+                <option value="Personal Vehicle">Personal Vehicle</option>
+                <option value="Public Transit (Bus/Train)">Public Transit (Bus/Train)</option>
+                <option value="Rideshare / Carpool">Rideshare / Carpool</option>
+                <option value="Walking / Bicycle">Walking / Bicycle</option>
+                <option value="Other">Other</option>
+              </select>
+              <div class="error-text" id="transportationError">Select your primary mode of transportation.</div>
+            </div>
+
+            <div class="field" data-field="workAuth">
+              <label for="workAuth">ID & Work status</label>
+              <select id="workAuth" name="workAuth" required aria-describedby="workAuthError">
+                <option value="">Select status</option>
+                <option value="Valid Driver's License & Work Auth Ready">Valid Driver's License & Work Auth Ready</option>
+                <option value="State ID & Work Auth Ready">State ID & Work Auth Ready</option>
+                <option value="Work Auth Ready (No ID currently)">Work Auth Ready (No State ID)</option>
+                <option value="In progress / Need assistance getting ID">In progress / Need help acquiring ID</option>
+              </select>
+              <div class="error-text" id="workAuthError">Select your current documentation status.</div>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Work schedule availability <span class="opt">(check all that apply)</span></label>
+            <div class="pill-grid">
+              <label class="pill-option"><input type="checkbox" name="availability" value="Full-time"> Full-time</label>
+              <label class="pill-option"><input type="checkbox" name="availability" value="Part-time"> Part-time</label>
+              <label class="pill-option"><input type="checkbox" name="availability" value="Day Shift"> Day Shift</label>
+              <label class="pill-option"><input type="checkbox" name="availability" value="Night Shift"> Night Shift</label>
+              <label class="pill-option"><input type="checkbox" name="availability" value="Weekends"> Weekends</label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="releaseTime">Time since release <span class="opt">(optional)</span></label>
+            <select id="releaseTime" name="releaseTime">
+              <option value="">Prefer not to say</option>
+              <option value="Less than 6 months">Less than 6 months</option>
+              <option value="6-12 months">6–12 months</option>
+              <option value="1-3 years">1–3 years</option>
+              <option value="3+ years">3+ years</option>
+            </select>
+            <div class="hint">Used only to flag reentry-program eligibility internally — never shown to employers.</div>
+          </div>
+
+          <div class="field" data-field="skills">
+            <label for="skills">Skills & past experience</label>
+            <textarea id="skills" name="skills" placeholder="Roles you've held, skills, certifications (e.g. Forklift, ServSafe, OSHA)..." required aria-describedby="skillsError"></textarea>
+            <div class="error-text" id="skillsError">Tell us a bit about your work experience.</div>
+          </div>
+
+          <div class="field" data-field="jobType">
+            <label for="jobType">Type of work you're seeking</label>
+            <input type="text" id="jobType" name="jobType" placeholder="e.g. warehouse, food service, construction, administrative" required aria-describedby="jobTypeError">
+            <div class="error-text" id="jobTypeError">Let us know what kind of work you're looking for.</div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>How you learn</legend>
+          <div class="field" data-field="learningStyle">
+            <label for="learningStyle">Describe how you learn best</label>
+            <textarea id="learningStyle" name="learningStyle" placeholder="e.g. I remember things better when someone shows me visually rather than tells me, and I like hands-on practice." required aria-describedby="learningStyleError"></textarea>
+            <div class="error-text" id="learningStyleError">Please describe your learning style (at least 10 characters).</div>
+          </div>
+        </fieldset>
+
+        <div class="consent">
+          <input type="checkbox" id="consent" name="consent" required aria-describedby="consentError">
+          <label for="consent" style="margin:0;font-weight:400;">
+            I consent to New Path Staffing storing and using this information, including reentry status, solely to support my job placement and training. I understand I can request its removal at any time.
+          </label>
+        </div>
+        <div class="error-text" id="consentError" style="margin-top:6px;">Consent is required to submit this form.</div>
+
+        <div style="margin-top:26px;">
+          <button type="submit" class="submit" id="submitBtn">Submit my information</button>
+          <div class="form-status" id="formStatus" aria-live="polite"></div>
+        </div>
+      </form>
+
+      <div class="success" id="successState">
+        <div class="check">&#10003;</div>
+        <h3 id="successName">You're all set.</h3>
+        <p>Your case file has been created and our placement team has been notified. Check your email for a confirmation and next steps.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>New Path Staffing &middot; Confidential candidate intake &middot; Questions? Contact your placement coordinator.</footer>
+
+<script>
+  const form = document.getElementById('intakeForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const status = document.getElementById('formStatus');
+  const DRAFT_KEY = 'newpath_intake_draft';
+
+  // Extract referral tracking code if present in URL (e.g. ?ref=jobfair2026)
+  const urlParams = new URLSearchParams(window.location.search);
+  const referralSource = urlParams.get('ref') || 'direct';
+
+  const validators = {
+    firstName: v => v.trim().length > 0,
+    lastName: v => v.trim().length > 0,
+    email: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()),
+    phone: v => v.replace(/\D/g,'').length >= 10,
+    location: v => v.trim().length > 0,
+    transportation: v => v.length > 0,
+    workAuth: v => v.length > 0,
+    skills: v => v.trim().length > 0,
+    jobType: v => v.trim().length > 0,
+    learningStyle: v => v.trim().length >= 10
+  };
+
+  // Check single field validity
+  function validateField(name) {
+    const input = form.elements[name];
+    if (!input || !validators[name]) return true;
+    const wrap = form.querySelector(`[data-field="${name}"]`);
+    const valid = validators[name](input.value);
+    
+    if (wrap) {
+      wrap.classList.toggle('invalid', !valid);
+      input.setAttribute('aria-invalid', !valid);
+    }
+    return valid;
+  }
+
+  // Full form validation with scroll-to-first-error
+  function validateAll() {
+    let isValid = true;
+    let firstInvalidInput = null;
+
+    Object.keys(validators).forEach(name => {
+      const valid = validateField(name);
+      if (!valid) {
+        isValid = false;
+        if (!firstInvalidInput) {
+          firstInvalidInput = form.elements[name];
+        }
+      }
+    });
+
+    const consentBox = document.getElementById('consent');
+    const consentValid = consentBox.checked;
+    document.getElementById('consentError').style.display = consentValid ? 'none' : 'block';
+    consentBox.setAttribute('aria-invalid', !consentValid);
+    
+    if (!consentValid) {
+      isValid = false;
+      if (!firstInvalidInput) firstInvalidInput = consentBox;
+    }
+
+    if (!isValid && firstInvalidInput) {
+      firstInvalidInput.focus();
+      firstInvalidInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    return isValid;
+  }
+
+  // Auto-Save Draft to LocalStorage
+  function saveDraft() {
+    const data = {};
+    const formData = new FormData(form);
+    for (let [key, val] of formData.entries()) {
+      if (key === 'consent') continue;
+      if (key === 'availability') {
+        if (!data[key]) data[key] = [];
+        data[key].push(val);
+      } else {
+        data[key] = val;
+      }
+    }
+    localStorage.setItem(DRAFT_KEY, JSON.stringify(data));
+  }
+
+  function restoreDraft() {
+    const saved = localStorage.getItem(DRAFT_KEY);
+    if (!saved) return;
+    try {
+      const data = JSON.parse(saved);
+      Object.keys(data).forEach(key => {
+        const el = form.elements[key];
+        if (!el) return;
+        if (key === 'availability' && Array.isArray(data[key])) {
+          const boxes = form.querySelectorAll('input[name="availability"]');
+          boxes.forEach(box => box.checked = data[key].includes(box.value));
+        } else if (el.type !== 'checkbox') {
+          el.value = data[key];
+        }
+      });
+    } catch (e) {
+      console.warn('Could not restore draft form state.', e);
+    }
+  }
+
+  // Attach Real-Time Blur & Input Event Handlers
+  Object.keys(validators).forEach(name => {
+    const input = form.elements[name];
+    if (!input) return;
+
+    input.addEventListener('blur', () => validateField(name));
+    input.addEventListener('input', () => {
+      const wrap = form.querySelector(`[data-field="${name}"]`);
+      if (wrap && wrap.classList.contains('invalid')) {
+        validateField(name);
+      }
+      saveDraft();
+    });
+  });
+
+  // Track edits to select/checkbox controls for auto-save
+  form.addEventListener('change', saveDraft);
+
+  // Auto-restore on load
+  document.addEventListener('DOMContentLoaded', restoreDraft);
+
+  // Form Submission
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    status.classList.remove('error');
+    status.textContent = '';
+
+    if (!validateAll()) {
+      status.classList.add('error');
+      status.textContent = 'Please correct the highlighted fields above.';
+      return;
+    }
+
+    // Collect schedule availability checkboxes
+    const availabilitySelected = Array.from(form.querySelectorAll('input[name="availability"]:checked'))
+                                     .map(cb => cb.value);
+
+    const data = {
+      firstName: form.firstName.value.trim(),
+      lastName: form.lastName.value.trim(),
+      email: form.email.value.trim(),
+      phone: form.phone.value.trim(),
+      location: form.location.value.trim(),
+      linkedin: form.linkedin.value.trim(),
+      transportation: form.transportation.value,
+      workAuth: form.workAuth.value,
+      availability: availabilitySelected.join(', ') || 'Not specified',
+      releaseTime: form.releaseTime.value || 'Not specified',
+      skills: form.skills.value.trim(),
+      jobType: form.jobType.value.trim(),
+      learningStyle: form.learningStyle.value.trim(),
+      referralSource: referralSource
+    };
+
+    // Lock inputs while processing
+    Array.from(form.elements).forEach(el => el.disabled = true);
+    submitBtn.textContent = 'Submitting...';
+    status.textContent = 'Sending your information — analyzing your learning style background...';
+
+    // Call Google Apps Script backend
+    google.script.run
+      .withSuccessHandler(function(result){
+        if (result && result.success) {
+          localStorage.removeItem(DRAFT_KEY); // Clear draft cache
+          document.getElementById('successName').textContent =
+            'Thanks, ' + data.firstName + ' — you\'re all set.';
+          form.style.display = 'none';
+          document.getElementById('successState').classList.add('show');
+        } else {
+          Array.from(form.elements).forEach(el => el.disabled = false);
+          submitBtn.textContent = 'Submit my information';
+          status.classList.add('error');
+          status.textContent = (result && result.message) ||
+            'Something went wrong on our end. Please try again in a moment.';
+        }
+      })
+      .withFailureHandler(function(err){
+        Array.from(form.elements).forEach(el => el.disabled = false);
+        submitBtn.textContent = 'Submit my information';
+        status.classList.add('error');
+        status.textContent = 'We could not reach the server. Please check your connection and try again.';
+      })
+      .submitIntakeForm(data);
+  });
+</script>
+
+</body>
+</html>
