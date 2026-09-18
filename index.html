@@ -4,7 +4,7 @@
 <base target="_top">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>New Path Staffing — Candidate Onboarding</title>
+<title>New Path Agency — Candidate Onboarding</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -228,7 +228,127 @@
   .success h3{color:var(--navy);margin-bottom:10px;font-size:21px;}
   .success p{color:var(--muted);font-size:14.5px;max-width:420px;margin:0 auto;}
 
-  footer{padding:34px 6%;text-align:center;font-size:13px;color:var(--muted);border-top:1px solid var(--line);}
+  /* ---------- Comprehensive Deep Navy Footer ---------- */
+  .main-footer {
+    background: var(--navy);
+    color: #FFFFFF;
+    padding: 70px 6% 30px;
+    border-top: 3px solid var(--gold);
+  }
+  .footer-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1.2fr 1.1fr;
+    gap: 40px;
+    margin-bottom: 50px;
+  }
+  .footer-col h4 {
+    color: #FFFFFF;
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0 0 18px;
+    letter-spacing: 0.03em;
+  }
+  .brand-col .brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .brand-col .brand-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #FFFFFF;
+  }
+  .brand-desc {
+    font-size: 13px;
+    color: #B9C2D9;
+    margin: 0 0 16px;
+    line-height: 1.6;
+  }
+  .footer-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(216, 163, 78, 0.12);
+    color: var(--gold);
+    border: 1px solid rgba(216, 163, 78, 0.3);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .footer-links, .footer-contact {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .footer-links li {
+    margin-bottom: 10px;
+  }
+  .footer-links a {
+    color: #B9C2D9;
+    font-size: 13px;
+    text-decoration: none;
+    transition: color 0.15s ease, padding-left 0.15s ease;
+  }
+  .footer-links a:hover {
+    color: var(--gold);
+    padding-left: 4px;
+  }
+  .footer-contact li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    color: #B9C2D9;
+    font-size: 13px;
+    margin-bottom: 12px;
+  }
+  .footer-contact svg {
+    color: var(--gold);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .commitment-text {
+    font-size: 13px;
+    color: #B9C2D9;
+    line-height: 1.6;
+    margin: 0 0 16px;
+  }
+  .trust-pill {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #E1E7F5;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+  .footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    padding-top: 26px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 12px;
+    color: #8C97B2;
+  }
+  .footer-bottom p {
+    margin: 0;
+  }
+  .footer-legal a {
+    color: #8C97B2;
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+  .footer-legal a:hover {
+    color: var(--gold);
+  }
 
   @media (max-width:880px){
     .hero-grid{grid-template-columns:1fr;}
@@ -241,6 +361,11 @@
     .row{grid-template-columns:1fr;}
     .t-slide{grid-template-columns:1fr;text-align:center;}
     .avatar{margin:0 auto;}
+    .footer-grid {grid-template-columns: 1fr 1fr;gap: 30px;}
+  }
+  @media (max-width:550px){
+    .footer-grid {grid-template-columns: 1fr;}
+    .footer-bottom {flex-direction: column;text-align: center;}
   }
 </style>
 </head>
@@ -252,7 +377,7 @@
       <path d="M1 20 C 8 20, 8 10, 15 10 C 22 10, 22 2, 29 2" stroke="#D8A34E" stroke-width="2.4" stroke-linecap="round"/>
       <circle cx="29" cy="2" r="2.6" fill="#3A4F8F"/>
     </svg>
-    New Path Staffing
+    New Path Agency
   </div>
   <a class="cta" href="#form">Start intake</a>
 </nav>
@@ -281,10 +406,6 @@
             <stop offset="55%" stop-color="#D8A34E"/>
             <stop offset="100%" stop-color="#B8823A"/>
           </radialGradient>
-          <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#16233F"/>
-            <stop offset="100%" stop-color="#3A4F8F" stop-opacity="0.35"/>
-          </linearGradient>
         </defs>
         <circle class="sun" cx="240" cy="150" r="62" fill="url(#sunGrad)"/>
         <path d="M60 300 C 150 300, 170 210, 240 210 C 310 210, 330 130, 420 130"
@@ -311,7 +432,7 @@
   </div>
 </div>
 
-<section class="section tight-top">
+<section class="section tight-top" id="how-it-works">
   <div class="eyebrow">How onboarding works</div>
   <h2>One form. Four things happen automatically.</h2>
   <p class="section-lead">From the moment you submit, your case file, training match, and welcome packet are already in motion.</p>
@@ -327,7 +448,7 @@
   </div>
 </section>
 
-<section class="carousel-section">
+<section class="carousel-section" id="stories">
   <div class="carousel-inner">
     <div class="eyebrow">Candidate outcomes</div>
     <h2>Stories from people who started here</h2>
@@ -335,7 +456,7 @@
       <div class="t-slide active">
         <div class="avatar" style="background:linear-gradient(135deg,#D8A34E,#F0C879);">MT</div>
         <div>
-          <p class="t-quote">"New Path understood my hands-on learning style right away. Within three days of intake, I was in a paid forklift certification program."</p>
+          <p class="t-quote">"New Path Agency understood my hands-on learning style right away. Within three days of intake, I was in a paid forklift certification program."</p>
           <div class="t-author">Marcus T.</div>
           <div class="t-role">Warehouse Operations Lead</div>
         </div>
@@ -479,7 +600,7 @@
           </div>
         </fieldset>
 
-        <fieldset>
+        <fieldset id="learning">
           <legend>How you learn</legend>
           <div class="field" data-field="learningStyle">
             <label for="learningStyle">Describe how you learn best</label>
@@ -491,7 +612,7 @@
         <div class="consent">
           <input type="checkbox" id="consent" name="consent" required aria-describedby="consentError">
           <label for="consent" style="margin:0;font-weight:400;">
-            I consent to New Path Staffing storing and using this information solely to support my job placement and training. I understand I can request its removal at any time.
+            I consent to New Path Agency storing and using this information solely to support my job placement and training. I understand I can request its removal at any time.
           </label>
         </div>
         <div class="error-text" id="consentError" style="margin-top:6px;">Consent is required to submit this form.</div>
@@ -514,7 +635,79 @@
   </div>
 </div>
 
-<footer>New Path Staffing &middot; Confidential candidate intake &middot; Questions? Contact your placement coordinator.</footer>
+<!-- Refined Comprehensive Footer -->
+<footer class="main-footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      
+      <!-- Column 1: Brand & Mission -->
+      <div class="footer-col brand-col">
+        <div class="brand-logo">
+          <svg class="brand-mark" viewBox="0 0 30 22" fill="none">
+            <path d="M1 20 C 8 20, 8 10, 15 10 C 22 10, 22 2, 29 2" stroke="#D8A34E" stroke-width="2.4" stroke-linecap="round"/>
+            <circle cx="29" cy="2" r="2.6" fill="#5A72B8"/>
+          </svg>
+          <span class="brand-title">New Path Agency</span>
+        </div>
+        <p class="brand-desc">Connecting returning citizens with employers ready to hire on merit. A second chance deserves a real one.</p>
+        <div class="footer-badge">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Confidential & Secure Intake
+        </div>
+      </div>
+
+      <!-- Column 2: Quick Links -->
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul class="footer-links">
+          <li><a href="#form">Candidate Intake Form</a></li>
+          <li><a href="#how-it-works">How Onboarding Works</a></li>
+          <li><a href="#stories">Candidate Stories</a></li>
+          <li><a href="#learning">Learning Style Assessment</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Contact & Support -->
+      <div class="footer-col">
+        <h4>Candidate Support</h4>
+        <ul class="footer-contact">
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <span>placement@newpathagency.org</span>
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <span>Placement Coordinator Line</span>
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span>Mon – Fri: 8:00 AM – 5:00 PM EST</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Column 4: Hiring Commitment -->
+      <div class="footer-col">
+        <h4>Fair-Chance Hiring</h4>
+        <p class="commitment-text">We partner exclusively with second-chance friendly employers committed to merit-based placement and long-term career growth.</p>
+        <div class="trust-pill">
+          <span>Equal Opportunity Partner</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Legal Bar -->
+    <div class="footer-bottom">
+      <p>&copy; 2026 New Path Agency. All rights reserved. Confidential candidate portal.</p>
+      <div class="footer-legal">
+        <a href="#privacy">Privacy Policy</a> &middot;
+        <a href="#terms">Terms of Service</a> &middot;
+        <a href="#data">Data Removal Request</a>
+      </div>
+    </div>
+  </div>
+</footer>
 
 <script>
   // =========================================================================
@@ -568,7 +761,9 @@
     });
     const consentBox = document.getElementById('consent');
     const consentValid = consentBox ? consentBox.checked : true;
-    document.getElementById('consentError').style.display = consentValid ? 'none' : 'block';
+    if (document.getElementById('consentError')){
+      document.getElementById('consentError').style.display = consentValid ? 'none' : 'block';
+    }
     if (consentBox) consentBox.setAttribute('aria-invalid', !consentValid);
     if (!consentValid){ isValid = false; if (!firstInvalid) firstInvalid = consentBox; }
     if (!isValid && firstInvalid){ firstInvalid.focus(); firstInvalid.scrollIntoView({behavior:'smooth', block:'center'}); }
