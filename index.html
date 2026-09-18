@@ -571,7 +571,7 @@
       <div class="success" id="successState">
         <div class="check-icon">&#10003;</div>
         <h3 id="successName">You're all set.</h3>
-        <p>Your case file has been created and our placement team has been notified. Check your email inbox for a confirmation and your custom welcome packet.</p>
+        <p>Your case file has been created and our placement team has been notified. Check your email for a confirmation and your custom welcome packet.</p>
       </div>
     </div>
   </div>
@@ -580,30 +580,11 @@
 <footer>New Path Staffing &middot; Confidential Candidate Intake &middot; Questions? Contact your placement coordinator.</footer>
 
 <script>
-  // 1. Mock 'google.script.run' for local browser testing
-  if (typeof google === 'undefined' || !google.script) {
-    window.google = {
-      script: {
-        run: {
-          withSuccessHandler: function(successCallback) {
-            return {
-              withFailureHandler: function(failureCallback) {
-                return {
-                  submitIntakeForm: function(data) {
-                    console.log('[LOCAL TEST MODE] Form submitted with payload:', data);
-                    // Simulate server response after 1.2 seconds
-                    setTimeout(() => {
-                      successCallback({ success: true, candidateId: 'NPS-TEST-1234' });
-                    }, 1200);
-                  }
-                };
-              }
-            };
-          }
-        }
-      }
-    };
-  }
+  // =========================================================================
+  // CONFIGURATION
+  // Paste your deployed Google Apps Script Web App URL below when hosting on Netlify.
+  // =========================================================================
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxsE1PQPnzPJLGPWCLMLyZUKm-bpGOMIFh2UwIHIGuJDL6u4s4M88NbK9TY2gDfRGxHXw/exec';
 
   const form = document.getElementById('intakeForm');
   const submitBtn = document.getElementById('submitBtn');
@@ -640,7 +621,7 @@
   const urlParams = new URLSearchParams(window.location.search);
   const referralSource = urlParams.get('ref') || 'direct';
 
-  // 2. Safe Validators (Guarded against undefined/null)
+  // Safe Validators (Guarded against undefined/null)
   const validators = {
     firstName: v => (v || '').trim().length > 0,
     lastName: v => (v || '').trim().length > 0,
@@ -662,7 +643,7 @@
       if (el && validators[key](el.value)) validCount++;
     });
     const percent = Math.round((validCount / keys.length) * 100);
-    progressBar.style.width = percent + '%';
+    if (progressBar) progressBar.style.width = percent + '%';
   }
 
   function validateField(name) {
@@ -692,9 +673,11 @@
     });
 
     const consentBox = document.getElementById('consent');
-    const consentValid = consentBox.checked;
-    document.getElementById('consentError').style.display = consentValid ? 'none' : 'block';
-    consentBox.setAttribute('aria-invalid', !consentValid);
+    const consentValid = consentBox ? consentBox.checked : true;
+    if (document.getElementById('consentError')) {
+      document.getElementById('consentError').style.display = consentValid ? 'none' : 'block';
+    }
+    if (consentBox) consentBox.setAttribute('aria-invalid', !consentValid);
     
     if (!consentValid) {
       isValid = false;
@@ -759,7 +742,24 @@
   form.addEventListener('change', saveDraft);
   document.addEventListener('DOMContentLoaded', restoreDraft);
 
-  // Form Submission
+  // Helper Functions for Submission Feedback
+  function handleSuccess(data) {
+    localStorage.removeItem(DRAFT_KEY);
+    document.getElementById('successName').textContent =
+      'Thanks, ' + data.firstName + ' — you\'re all set.';
+    form.style.display = 'none';
+    document.getElementById('successState').classList.add('show');
+  }
+
+  function handleError(message) {
+    Array.from(form.elements).forEach(el => el.disabled = false);
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = '<span>Submit my information</span>';
+    status.classList.add('error');
+    status.textContent = message || 'Something went wrong. Please try again.';
+  }
+
+  // Form Submission Handler
   form.addEventListener('submit', function(e){
     e.preventDefault();
     status.classList.remove('error');
@@ -791,36 +791,58 @@
       referralSource: referralSource
     };
 
+    // Lock inputs while processing
     Array.from(form.elements).forEach(el => el.disabled = true);
     submitBtn.disabled = true;
     submitBtn.innerHTML = 'Submitting...';
     status.textContent = 'Analyzing learning profile & generating case file...';
 
-    google.script.run
-      .withSuccessHandler(function(result){
+    // ---------------------------------------------------------------------
+    // SUBMISSION ROUTING (Netlify Fetch vs Native Apps Script vs Local Test)
+    // ---------------------------------------------------------------------
+    
+    // 1. NETLIFY / EXTERNAL HOSTING (Uses fetch to APPS_SCRIPT_URL)
+    if (APPS_SCRIPT_URL && !APPS_SCRIPT_URL.includes('YOUR_DEPLOYMENT_ID')) {
+      fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // Prevents CORS preflight
+        body: JSON.stringify(data)
+      })
+      .then(res => res.json())
+      .then(result => {
         if (result && result.success) {
-          localStorage.removeItem(DRAFT_KEY);
-          document.getElementById('successName').textContent =
-            'Thanks, ' + data.firstName + ' — you\'re all set.';
-          form.style.display = 'none';
-          document.getElementById('successState').classList.add('show');
+          handleSuccess(data);
         } else {
-          Array.from(form.elements).forEach(el => el.disabled = false);
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = '<span>Submit my information</span>';
-          status.classList.add('error');
-          status.textContent = (result && result.message) ||
-            'Something went wrong on our end. Please try again.';
+          handleError(result ? result.message : null);
         }
       })
-      .withFailureHandler(function(err){
-        Array.from(form.elements).forEach(el => el.disabled = false);
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = '<span>Submit my information</span>';
-        status.classList.add('error');
-        status.textContent = 'Could not reach server. Please check your connection and try again.';
-      })
-      .submitIntakeForm(data);
+      .catch(err => {
+        console.error('Fetch error:', err);
+        handleError('Could not reach server. Please check your connection and try again.');
+      });
+
+    // 2. NATIVE GOOGLE APPS SCRIPT WEB APP (Hosted inside script.google.com)
+    } else if (typeof google !== 'undefined' && google.script && google.script.run) {
+      google.script.run
+        .withSuccessHandler(function(result){
+          if (result && result.success) {
+            handleSuccess(data);
+          } else {
+            handleError(result ? result.message : null);
+          }
+        })
+        .withFailureHandler(function(err){
+          handleError('Server error occurred. Please try again.');
+        })
+        .submitIntakeForm(data);
+
+    // 3. LOCAL FILE TEST MODE (Fallback for file:/// testing)
+    } else {
+      console.log('[LOCAL TEST MODE] Payload captured:', data);
+      setTimeout(() => {
+        handleSuccess(data);
+      }, 1200);
+    }
   });
 </script>
 
